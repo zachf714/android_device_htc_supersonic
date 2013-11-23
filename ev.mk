@@ -2,7 +2,7 @@
 $(call inherit-product, device/htc/supersonic/full_supersonic.mk)
 
 # Inherit some common evervolv stuff.
-$(call inherit-product, vendor/ev/config/common_full_phone.mk)
+$(call inherit-product, $(SRC_EVERVOLV_DIR)/config/common_small_phone.mk)
 
 #
 # Setup device specific product configuration.

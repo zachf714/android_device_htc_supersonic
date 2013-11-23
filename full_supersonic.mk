@@ -32,13 +32,13 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product-if-exists, vendor/htc/supersonic/supersonic-vendor.mk)
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.com.google.clientidbase=android-sprint-us \
-	ro.com.google.locationfeatures=1 \
-	ro.cdma.home.operator.numeric=310120 \
-	ro.cdma.home.operator.alpha=Sprint \
-	ro.setupwizard.enable_bypass=1 \
-	ro.media.dec.jpeg.memcap=20000000 \
-	ro.opengles.version=131072 \
+    ro.com.google.clientidbase=android-sprint-us \
+    ro.com.google.locationfeatures=1 \
+    ro.cdma.home.operator.numeric=310120 \
+    ro.cdma.home.operator.alpha=Sprint \
+    ro.setupwizard.enable_bypass=1 \
+    ro.media.dec.jpeg.memcap=20000000 \
+    ro.opengles.version=131072 \
     ro.telephony.ril.v3=skipdatareg
 
 DEVICE_PACKAGE_OVERLAYS += device/htc/supersonic/overlay
@@ -94,7 +94,7 @@ $(call inherit-product, device/htc/qsd8k-common/qsd8k.mk)
 
 $(call inherit-product-if-exists, vendor/htc/supersonic/supersonic-vendor.mk)
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product, $(SRC_EVERVOLV_DIR)/product/lite_base_telephony.mk)
 
 PRODUCT_NAME := htc_supersonic
 PRODUCT_DEVICE := supersonic

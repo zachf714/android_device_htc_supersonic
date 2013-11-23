@@ -2,12 +2,14 @@ import init.supersonic.usb.rc
 
 on init
 
-    export EXTERNAL_STORAGE /storage/sdcard0
     mkdir /storage 0050 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /storage/sdcard0 0700 root root
+
     # for backwards compatibility
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
+    export EXTERNAL_STORAGE /storage/sdcard0
 
     mount rootfs rootfs / remount
     mkdir /app-cache 01777 system system
@@ -105,8 +107,15 @@ on boot
     symlink /system/vendor/firmware/fw_bcmdhd.bin /vendor/firmware/fw_bcmdhd.bin
     symlink /system/vendor/firmware/fw_bcmdhd_apsta.bin /vendor/firmware/fw_bcmdhd_apsta.bin
 
+#sdcard daemon
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
 service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
-    -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
+    -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf \
+    -O/data/misc/wifi/sockets -e/data/misc/wifi/entropy.bin \
+    -g@android:wpa_wlan0
 #   we will start as root and wpa_supplicant will switch to user wifi
 #   after setting up the capabilities required for WEXT
 #   user wifi
@@ -116,16 +125,15 @@ service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -aABKL
-	class main
-	disabled
-	oneshot
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
+    class main
+    disabled
+    oneshot
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
-	class main
-	disabled
-	oneshot
+    class main
+    disabled
+    oneshot
 
 service dhcpWimax /system/bin/dhcpcd -ABKL -f /etc/wimax/dhcp/wimaxDhcp.conf wimax0
     disabled
