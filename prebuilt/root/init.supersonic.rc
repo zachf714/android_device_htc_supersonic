@@ -16,6 +16,8 @@ on init
     mount tmpfs tmpfs /app-cache size=8m
     mkdir /data/app-cache 0771 system system
     mount rootfs rootfs / ro remount
+    mount yaffs2 mtd@system /system
+    mount yaffs2 mtd@system /system ro remount
 
 # Define the memory thresholds at which the above process classes will
 # be killed.  These numbers are in pages (4k).
