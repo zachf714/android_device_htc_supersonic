@@ -58,7 +58,9 @@ PRODUCT_PACKAGES := \
 
 # USB
 ADDITIONAL_DEFAULT_PROPERTIES += \
-    persist.sys.usb.config=mass_storage
+    persist.sys.usb.config=mass_storage,adb \
+    ro.debuggable=1 \
+    persist.service.adb.enable=1
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -86,6 +88,10 @@ PRODUCT_COPY_FILES += \
     device/htc/supersonic/prebuilt/lib/libcamera.so:obj/lib/libcamera.so \
     device/htc/supersonic/prebuilt/lib/libcamera.so:system/lib/libcamera.so
 
+# Call the Torch.apk
+PRODUCT_PACKAGES += \
+    Torch
+
 # media profiles and capabilities spec
 $(call inherit-product, device/htc/supersonic/media_a1026.mk)
 
@@ -94,7 +100,10 @@ $(call inherit-product, device/htc/qsd8k-common/qsd8k.mk)
 
 $(call inherit-product-if-exists, vendor/htc/supersonic/supersonic-vendor.mk)
 
-$(call inherit-product, $(SRC_EVERVOLV_DIR)/product/lite_base_telephony.mk)
+# Use generic instead of full_base_telephony (smaller)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic.mk)
+# Get a full list of languages
+$(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
 
 PRODUCT_NAME := htc_supersonic
 PRODUCT_DEVICE := supersonic
