@@ -32,6 +32,9 @@ include device/htc/qsd8k-common/BoardConfigCommon.mk
 
 TARGET_BOOTLOADER_BOARD_NAME := supersonic
 
+# Use Custom Toolchain
+KERNEL_TOOLCHAIN_PREFIX:=$(ANDROID_BUILD_TOP)/prebuilt/linux-x86/toolchain/arm-eabi-4.7.4/bin/arm-eabi-
+
 BOARD_KERNEL_CMDLINE := no_console_suspend=1
 BOARD_KERNEL_BASE := 0x20000000
 BOARD_KERNEL_NEW_PPPOX := true
